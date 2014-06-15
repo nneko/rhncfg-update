@@ -62,10 +62,10 @@ then
 			    	userparams["${param[0]}"]="${param[1]}";
 				done < <(cat ~/.rhncfgrc|awk -F= '{if($1=="password"||$1=="username"){print $1" "$2}}')
 
-				logger -p daemon.notice -t rhn-update-cfgs "updating file $cfg in configuration channel $channel...";
+				logger -p daemon.notice -t $prog "updating file $cfg in configuration channel $channel...";
 				if [ ${#userparams[@]} -eq 2 ];
 				then
-					logger -p daemon.notice -t rhn-update-cfgs "attempting update using user parameters specified in .rhncfgrc";
+					logger -p daemon.notice -t $prog "attempting update using user parameters specified in .rhncfgrc";
 					rhncfg-manager update --username ${userparams["username"]} --password ${userparams["password"]} -c $channel $cfg;
 				else
 					rhncfg-manager update -c $channel $cfg;
@@ -84,7 +84,7 @@ then
 		do
 			if [ "$file" != "" ] && [ "$file" != "server" ];
 			then
-				logger -p daemon.notice -t rhn-update-cfgs "deploying $file from central repository...";
+				logger -p daemon.notice -t $prog "deploying $file from central repository...";
 				rhncfg-client get $file;
 			fi
 		done
